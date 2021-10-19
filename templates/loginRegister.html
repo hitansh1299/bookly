@@ -236,28 +236,29 @@
 
                     <form method="post" id="singninFrom">
                       <div class="form-group">
-                        <label class="font-weight-bold">Email <span class="text-danger">*</span></label>
-                        <input type="email" id="email" class="form-control" placeholder="Enter valid email"
-                               required>
+                        <label class="font-weight-bold">Username <span class="text-danger">*</span></label>
+                        <input type="text" id="text" class="form-control" placeholder="Enter Username"
+                               name="signin_username" required>
                       </div>
                       <div class="form-group">
                         <label class="font-weight-bold">Password <span class="text-danger">*</span></label>
-                        <input type="password" name="password" id="password" class="form-control"
+                        <input type="password" name="signin_password" id="password" class="form-control"
                                placeholder="***********" required>
                       </div>
+                      <div class="text-danger"><em>{{signin_text}}</em></div>
+<!--                      <div class="form-group">-->
+<!--                        <div class="row">-->
+<!--                          <div class="col-lg-6 col-md-6 col-sm-6 col-6">-->
+<!--                            <label><input type="checkbox" name="condition" id="condition"> Remember me.</label>-->
+<!--                          </div>-->
+<!--                          <div class="col-lg-6 col-md-6 col-sm-6 col-6 text-left text-sm-right text-lg-right text-md-right text-xl-right">-->
+<!--                            <a href="javascript:;" data-toggle="modal"-->
+<!--                               data-target="#forgotPass">Forgot Password?</a>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                      </div>-->
                       <div class="form-group">
-                        <div class="row">
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                            <label><input type="checkbox" name="condition" id="condition"> Remember me.</label>
-                          </div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-6 text-left text-sm-right text-lg-right text-md-right text-xl-right">
-                            <a href="javascript:;" data-toggle="modal"
-                               data-target="#forgotPass">Forgot Password?</a>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <input type="submit" name="submit" value="Sign In" class="custom-button">
+                        <input type="submit" name="signinsubmit" value="Sign In" class="custom-button">
                       </div>
                     </form>
                   </div>
