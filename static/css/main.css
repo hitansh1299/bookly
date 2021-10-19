@@ -306,7 +306,7 @@ textarea {
    ========================================================================== */
 .whitehover.custom-button:hover {
 	color: #000;
-	background: #a46fbf;
+	background: #F76C6C;
 }
 
 .popular_searches a:hover {
@@ -339,7 +339,7 @@ textarea {
 
 
 .background-header {
-	background-color: #3c3241;
+	background-color: #24305E;
 }
 
 .max-width-78px {
@@ -368,7 +368,7 @@ textarea {
 }
 
 .bordering {
-	background: #a46fbf;
+	background: #F76C6C;
 }
 
 .bordering:hover {
@@ -532,13 +532,6 @@ textarea {
 	--url: url(../img/banner.jpg);
 }
 
-
-.hero-homepage {
-
-	background: linear-gradient(to right, var(--banner_color), var(--banner_color2)), var(--url);
-	background-size: cover;
-}
-
 .search_form {
 	background: #fff;
 	color: #fff !important;
@@ -552,7 +545,7 @@ textarea {
 }
 
 .custom-button {
-	background: #a46fbf;
+	background: #F76C6C;
 	border: none;
 	width: 100%;
 	padding: 7px;
@@ -565,7 +558,7 @@ textarea {
 }
 
 .popular_searches a {
-	color: #a46fbf;
+	color: #F76C6C;
 	letter-spacing: 0px;
 	padding: 5px;
 }
@@ -677,7 +670,7 @@ textarea {
 
 .cat-icons a {
 	display: inline-block;
-	color: #A46FBF;
+	color: #F76C6C;
 	width: 100px;
 	cursor: auto;
 	text-align: center;
@@ -702,11 +695,11 @@ textarea {
 	display: block;
 	width: 100%;
 	max-width: 100%;
-	border: 1px solid #fff;
+	border: 1px solid #77DD77;
 }
 
 .post-box {
-	border: 1px solid #ccc;
+	border: 1px solid #77DD77;
 	text-align: center;
 }
 
@@ -715,7 +708,7 @@ textarea {
 }
 
 .post-section {
-	background: #F2F2F2;
+	background: #A8D0E6;
 	padding: 20px 0px;
 }
 
@@ -727,7 +720,7 @@ textarea {
 .post-box-content {
 	text-align: left;
 	padding: 10px;
-	background: #fff;
+	background: #77DD77;
 	padding-top: 0px;
 }
 
@@ -843,7 +836,7 @@ footer h3 {
 }
 
 .greens {
-	color: #8fb249;
+	color: #374785;
 }
 
 
@@ -878,7 +871,7 @@ p {
 }
 
 .pagination .page-item.disabled a {
-	background-color: #a46fbf;
+	background-color: #F76C6C;
 	color: #fff;
 }
 
@@ -1032,7 +1025,7 @@ p {
 }
 
 .faqs a:hover {
-	color: #a46fbf;
+	color: #F76C6C;
 
 }
 
@@ -1413,15 +1406,15 @@ a:hover {
 }
 
 .cardtag .fa-star {
-	color: #a46fbf;
+	color: #F76C6C;
 }
 
 .cardtag .fa-star-half-o {
-	color: #a46fbf;
+	color: #F76C6C;
 }
 
 .cardtag .fa-star-o {
-	color: #a46fbf;
+	color: #F76C6C;
 }
 
 .cardtag .fa-list-alt {
@@ -1462,6 +1455,7 @@ a:hover {
 	font-style: normal;
 	font-stretch: normal;
 	font-size: 14px;
+	background: #ffffff;
 	border: 1px solid #ccc;
 }
 .recentadsright span.col-6 {

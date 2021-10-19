@@ -69,6 +69,8 @@ def login():
             con.execute(
                 f'INSERT INTO Users VALUES("{form.get("username")}","{form.get("password")}","{form.get("email")}","{form.get("phone")}")')
             con.commit()
+            global current_user
+            current_user = User(form.get("username"))
             con.close()
         except sqlite3.IntegrityError:
             return render_template('loginRegister.html',
@@ -93,7 +95,6 @@ def login():
                                    signin_text="USERNAME OR PASSWORD INCORRECT!",
                                    show_signup="",
                                    show_signin="show active")
-        global current_user
         current_user = User(username)
         con.close()
 
