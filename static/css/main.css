@@ -529,7 +529,13 @@ textarea {
 :root {
 	--banner_color: rgba(0, 0, 0, .62);
 	--banner_color2: rgba(0, 0, 0, .62);
-	--url: url(../img/banner.jpg);
+	/*--url: url(../img/banner.jpg);*/
+	--url: url(../img/lib4.png);
+}
+
+.hero-homepage {
+	background: linear-gradient(to right, var(--banner_color), var(--banner_color2)), var(--url);
+	background-size: cover;
 }
 
 .search_form {
