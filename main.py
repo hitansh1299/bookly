@@ -26,7 +26,7 @@ def home():
 @app.route('/postad.html', methods=["GET", "POST"])
 def post_ad():
     if request.method == "GET":
-        return render_template('postad.html')
+        return render_template('postad.html',current_user.username)
     else:
         try:
             con = sqlite3.connect("Users.db")
@@ -138,4 +138,4 @@ def get_resource(resourcename):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=912)
