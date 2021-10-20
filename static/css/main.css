@@ -645,7 +645,7 @@ textarea {
 }
 
 .cat-icons a div:hover {
-	color: #8fb249;
+	color: #F76C6C;
 }
 
 .karma {
@@ -676,7 +676,7 @@ textarea {
 
 .cat-icons a {
 	display: inline-block;
-	color: #F76C6C;
+	color: #374785;
 	width: 100px;
 	cursor: auto;
 	text-align: center;
