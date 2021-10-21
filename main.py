@@ -1,8 +1,8 @@
 import datetime
-
+import os
 from flask import Flask, redirect, url_for, render_template, request
 import sqlite3
-
+from werkzeug.utils import secure_filename
 import utils
 from CustomErrors import UsernameError
 from User import User
@@ -26,7 +26,7 @@ def home():
 @app.route('/postad.html', methods=["GET", "POST"])
 def post_ad():
     if request.method == "GET":
-        return render_template('postad.html',current_user.username)
+        return render_template('postad.html',username=current_user.username)
     else:
         try:
             con = sqlite3.connect("Users.db")
@@ -62,7 +62,6 @@ def login():
     form = request.form
     if "signupsubmit" in form:
         con = sqlite3.connect('Users.db')
-        print(form.get("username"))
         try:
             if len(con.execute(f'SELECT * FROM Users WHERE username = "{form.get("username")}"').fetchall()) > 0:
                 raise UsernameError
@@ -88,8 +87,6 @@ def login():
         username = form.get("signin_username")
         password = form.get("signin_password")
         x = con.execute(f'SELECT password FROM Users WHERE username = "{username}"').fetchone()
-        print(x[0])
-        print(username, password)
         if x[0] != password:
             return render_template('loginRegister.html',
                                    signin_text="USERNAME OR PASSWORD INCORRECT!",
