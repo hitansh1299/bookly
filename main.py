@@ -2,7 +2,7 @@ import base64
 import datetime
 import os
 import random
-
+import utils
 from flask import Flask, redirect, url_for, render_template, request
 import sqlite3
 from CustomErrors import UsernameError
@@ -35,7 +35,7 @@ def post_ad():
             con = sqlite3.connect("Users.db")
             form = request.form
             ad_id = hex(abs(hash(str(datetime.datetime.now()) + current_user.username + form.get("ISBN")))).lstrip("0x").rstrip("L")
-            con.execute('INSERT INTO Ad VALUES(?,?,?,?,?,?,?,?,?,?,?)',
+            con.execute('INSERT INTO Ad VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
                         [f'{form.get("title")}',
                          f'{form.get("domain")}',
                          f'{form.get("state")}',
@@ -46,7 +46,10 @@ def post_ad():
                          f'{float(form.get("price"))}',
                          f'{form.get("desc")}',
                          ad_id,
-                         f'{form.get("age-group")}'
+                         f'{form.get("age-group")}',
+                         "ACTIVE",
+                         str(datetime.date.today()),
+                         0
                          ]
                         )
 
@@ -121,7 +124,7 @@ def allads():
     images = []
     for ad in ads:
         print(ad[9])
-        img = con.execute(f"SELECT image_path FROM post_images WHERE post_id = ?",(ad[9],)).fetchone()
+        img = utils.get_images(ad[9])
         print(img)
         img = img[0] if img else "img/logo_200x200.png"
         print(img)
@@ -139,6 +142,9 @@ def product():
     ad = con.execute(f"SELECT * FROM Ad JOIN Users ON Ad.username = Users.username WHERE ad_id = ?",(id,)).fetchone()
     print(ad)
     images = con.execute(f"SELECT image_path FROM post_images WHERE post_id = ?", (ad[9],)).fetchall()
+    if not ad[9] == current_user.username:
+        con.execute("Update Ad SET views = IFNULL(views, 0) + 1 WHERE ad_id = ?",(id,))
+        con.commit()
     images = [i[0] for i in images]
     con.close()
     return render_template("product.html",
@@ -146,7 +152,7 @@ def product():
                            price=ad[7],
                            domain=ad[1],
                            seller=ad[6],
-                           seller_phone=ad[12], #KEPT AS EMAIL ID FOR NOW
+                           seller_phone=ad[13], #KEPT AS EMAIL ID FOR NOW
                            state=ad[2],
                            author=ad[4],
                            ISBN=ad[5],
@@ -154,6 +160,13 @@ def product():
                            desc=ad[8],
                            images=images
                            )
+
+
+@app.route("/myads.html")
+def myads():
+    ads = sqlite3.connect("Users.db").execute("SELECT * FROM Ad WHERE username = ?", (current_user.username,))
+    ads = [{"title":ad[0], "image":utils.get_images(ad[9])[0], "category":ad[1], 'views':ad[13], 'status':ad[11]} for ad in ads]
+    return render_template("myads.html",my_ads=ads)
 
 
 @app.route("/<resourcename>")
