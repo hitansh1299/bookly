@@ -15,7 +15,7 @@ current_user: User = None
 @app.route('/index.html')
 def home():
     con = sqlite3.connect("Users.db")
-    ads = con.execute("SELECT * FROM Ad").fetchall()[:5]
+    ads = con.execute("SELECT * FROM Ad").fetchall()[:6]
     con.close()
     return render_template("index.html",
                            ads=ads,
@@ -26,13 +26,13 @@ def home():
 @app.route('/postad.html', methods=["GET", "POST"])
 def post_ad():
     if request.method == "GET":
-        return render_template('postad.html',username=current_user.username)
+        return render_template('postad.html', username=current_user.username)
     else:
         try:
             con = sqlite3.connect("Users.db")
             form = request.form
 
-            con.execute('INSERT INTO Ad VALUES(?,?,?,?,?,?,?,?,?,?)',
+            con.execute('INSERT INTO Ad VALUES(?,?,?,?,?,?,?,?,?,?,?)',
                         [f'{form.get("title")}',
                          f'{form.get("domain")}',
                          f'{form.get("state")}',
@@ -42,7 +42,8 @@ def post_ad():
                          f'{current_user.username}',
                          f'{float(form.get("price"))}',
                          f'{form.get("desc")}',
-                         hash(str(datetime.datetime.now()) + current_user.username + form.get("ISBN"))
+                         hash(str(datetime.datetime.now()) + current_user.username + form.get("ISBN")),
+                         f'{form.get("age-group")}'
                          ]
                         )
             con.commit()
