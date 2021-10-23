@@ -1,14 +1,17 @@
+import base64
 import datetime
 import os
+import random
+
 from flask import Flask, redirect, url_for, render_template, request
 import sqlite3
-from werkzeug.utils import secure_filename
-import utils
 from CustomErrors import UsernameError
 from User import User
 
 app = Flask(__name__, static_folder="static", static_url_path="", template_folder="templates")
-
+UPLOAD_FOLDER = 'static\\uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 current_user: User = None
 
 
@@ -31,7 +34,7 @@ def post_ad():
         try:
             con = sqlite3.connect("Users.db")
             form = request.form
-
+            ad_id = hex(abs(hash(str(datetime.datetime.now()) + current_user.username + form.get("ISBN")))).lstrip("0x").rstrip("L")
             con.execute('INSERT INTO Ad VALUES(?,?,?,?,?,?,?,?,?,?,?)',
                         [f'{form.get("title")}',
                          f'{form.get("domain")}',
@@ -42,10 +45,22 @@ def post_ad():
                          f'{current_user.username}',
                          f'{float(form.get("price"))}',
                          f'{form.get("desc")}',
-                         hash(str(datetime.datetime.now()) + current_user.username + form.get("ISBN")),
+                         ad_id,
                          f'{form.get("age-group")}'
                          ]
                         )
+
+            files = request.files.getlist('images')
+            print(files)
+            for file in files:
+                image_path = os.path.join(app.config["UPLOAD_FOLDER"], (ad_id + "_"+file.filename))
+                con.execute("INSERT INTO post_images(post_id, image_path) VALUES(?,?)",
+                            [
+                                ad_id,
+                                str(image_path).replace("static\\","")
+                            ]
+                            )
+                file.save(image_path)
             con.commit()
         except Exception as e:
             raise e
@@ -103,8 +118,17 @@ def login():
 def allads():
     con = sqlite3.connect("Users.db")
     ads = con.execute("SELECT * FROM Ad").fetchall()
+    images = []
+    for ad in ads:
+        print(ad[9])
+        img = con.execute(f"SELECT image_path FROM post_images WHERE post_id = ?",(ad[9],)).fetchone()
+        print(img)
+        img = img[0] if img else "img/logo_200x200.png"
+        print(img)
+        images.append(img)
+    print(images)
     con.close()
-    return render_template("allads.html", ads=ads)
+    return render_template("allads.html", ads=ads, images = images)
 
 
 @app.route("/product")
@@ -112,8 +136,10 @@ def product():
     id = request.args.get("id")
     print("id",id)
     con = sqlite3.connect("Users.db")
-    ad = con.execute(f"SELECT * FROM Ad JOIN Users ON Ad.username = Users.username WHERE ad_id = {id}").fetchone()
+    ad = con.execute(f"SELECT * FROM Ad JOIN Users ON Ad.username = Users.username WHERE ad_id = ?",(id,)).fetchone()
     print(ad)
+    images = con.execute(f"SELECT image_path FROM post_images WHERE post_id = ?", (ad[9],)).fetchall()
+    images = [i[0] for i in images]
     con.close()
     return render_template("product.html",
                            title=ad[0],
@@ -125,7 +151,8 @@ def product():
                            author=ad[4],
                            ISBN=ad[5],
                            city=ad[3],
-                           desc=ad[8]
+                           desc=ad[8],
+                           images=images
                            )
 
 

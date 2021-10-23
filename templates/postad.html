@@ -37,6 +37,9 @@
   }
 
 
+
+
+
     </style>
 </head>
 <body>
@@ -213,11 +216,12 @@
                                     </div>
                                     <div class="col-lg-9">
                                         <div class="col-sm-12 background_white">
-                                            <form method="post" class="row" method="post" action={{url_for('post_ad')}}>
+                                            <form method="post" class="row" action={{url_for('post_ad')}}
+                                                  enctype="multipart/form-data">
                                                 <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 col-12">
                                                     <div class="form-group ">
                                                         <label class="font-weight-bold">Ad title</label>
-                                                        <input type="text" class="form-control" name="title">
+                                                        <input type="text" class="form-control" name="title" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 col-12 ">
@@ -304,8 +308,8 @@
                                                 </div>
                                                 <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 col-12 ">
                                                     <div class="form-group ">
-                                                        <label class="font-weight-bold">Location City</label>
-                                                        <input type="text" class="form-control" name="city">
+                                                        <label class="font-weight-bold">City/Town</label>
+                                                        <input type="text" class="form-control" name="city" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 col-12 ">
@@ -327,23 +331,46 @@
                                                                value="" required="" name="price">
                                                     </div>
                                                 </div>
-<!--                                                <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 col-12 ">-->
-<!--                                                    <div class="form-group ">-->
-<!--                                                        <label class="font-weight-bold">Condition</label>-->
-<!--                                                        <div class="form-group marginforradio">-->
-<!--                                                            <label for="id_new">New</label>-->
-<!--                                                            <input type="radio" id="id_new" name="condition" value="n">-->
-<!--                                                            <label for="id_old">Used</label>-->
-<!--                                                            <input type="radio" id="id_old" name="condition" value="u">-->
-<!--                                                        </div>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
                                                 <div class="col-md-12 col-xl-12 col-lg-12 col-sm-12 col-12 ">
                                                     <div class="form-group uploadingsmultiple">
-                                                        <label for="file">
+                                                        <label for="file-input">
                                                             <span><i class="fa fa-upload"></i> Upload Images</span>
-                                                            <input type="file" class="d-none" id="file" name="images"
-                                                                   multiple="">
+                                                            <input type="file" class="d-none" name="images"
+                                                                   multiple="" accept="image/*" id="file-input" required    ><br>
+                                                            <div id="preview"></div>
+                                                            <script>
+                                                                    function previewImages() {
+                                                                          var preview = document.querySelector('#preview');
+                                                                          if (this.files) {
+                                                                            preview.innerHTML = "";
+                                                                            [].forEach.call(this.files, readAndPreview);
+                                                                          }
+
+                                                                    function readAndPreview(file) {
+
+                                                                            // Make sure `file.name` matches our extensions criteria
+                                                                            if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+                                                                              return alert(file.name + " is not an image");
+                                                                            } // else...
+
+                                                                            var reader = new FileReader();
+
+                                                                            reader.addEventListener("load", function() {
+                                                                              var image = new Image();
+                                                                              image.height = 100;
+                                                                              image.title  = file.name;
+                                                                              image.src    = this.result;
+                                                                              preview.appendChild(image);
+                                                                            });
+
+                                                                            reader.readAsDataURL(file);
+
+                                                                          }
+
+                                                                        }
+                                                                    document.querySelector('#file-input').addEventListener("change", previewImages);
+
+                                                            </script>
                                                         </label>
                                                     </div>
                                                 </div>
