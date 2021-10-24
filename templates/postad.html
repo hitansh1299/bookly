@@ -40,6 +40,7 @@
 
 
 
+
     </style>
 </head>
 <body>
@@ -121,15 +122,15 @@
 
 
                         <li class="nav-item">
-              <a class="nav-link" href="aboutus.html">About Us
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="faq.html">FAQ
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
+                            <a class="nav-link" href="aboutus.html">About Us
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="faq.html">FAQ
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="contactus.html">Contact Us</a>
@@ -142,7 +143,7 @@
                                class="nav-link dropdown-toggle">
               <span>
                 <img class="max-width-50px rounded-circle" src="img/logo.png" alt="Maida themes">
-              </span> Maida <i class="fa fa-angle-down"></i></a>
+              </span> {{username}} <i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu border-0 shadow">
                                 <li><a href="aboutus.html" class="dropdown-item"><i class="fa fa-dashboard"></i>
                                     Dashboard</a></li>
@@ -330,7 +331,8 @@
                                                         <label for="file-input">
                                                             <span><i class="fa fa-upload"></i> Upload Images</span>
                                                             <input type="file" class="d-none" name="images"
-                                                                   multiple="" accept="image/*" id="file-input" required    ><br>
+                                                                   multiple="" accept="image/*" id="file-input"
+                                                                   required><br>
                                                             <div id="preview"></div>
                                                             <script>
                                                                     function previewImages() {
@@ -364,6 +366,7 @@
                                                                         }
                                                                     document.querySelector('#file-input').addEventListener("change", previewImages);
 
+
                                                             </script>
                                                         </label>
                                                     </div>
@@ -396,32 +399,6 @@
 <!--footer-->
 <footer>
     <!--Newsletter section-->
-    <div class="newsletter">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-12">
-                    <h2>Newsletter</h2>
-                </div>
-                <div class="col-lg-4 col-md-12">
-                    <p>Sign up to receive email updates on new recipes.</p>
-                </div>
-                <div class="col-lg-5 col-md-12">
-                    <form>
-                        <div class="col-sm-12">
-                            <div class="row zeromargin zeromargin_form_group">
-                                <div class="form-group col-lg-8 col-sm-12">
-                                    <input type="email" class="form-control" placeholder="Your email address here...">
-                                </div>
-                                <div class="form-group col-lg-4 col-sm-12">
-                                    <button type="submit" class="whitehover custom-button">Subscribe</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="background-header footer_padding">
         <div class="container">
             <div class="navigation_footer">
@@ -431,9 +408,9 @@
                             <p>
                                 <img src="img/logo_200x200.png" class="max-width-100px" alt="logo"/>
                             </p>
-                            <p><i class="fa fa-phone"></i> 123-456-987</p>
-                            <p><i class="fa fa-map-marker"></i> 123 Street Infront of Macdonald, <br>
-                                Kingsman, United States</p>
+                            <p><i class="fa fa-phone"></i>  (+91) 9875532XXX</p>
+                            <p><i class="fa fa-envelope"></i> bookly.enquiry@gmail.com <br>
+                                </p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-12">

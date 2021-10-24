@@ -18,7 +18,8 @@ current_user: User = None
 @app.route('/index.html')
 def home():
     con = sqlite3.connect("Users.db")
-    ads = con.execute("SELECT * FROM Ad").fetchall()[-6:]
+    ads = con.execute("SELECT ad_id FROM Ad").fetchall()[-6:]
+    ads = [utils.get_ad(ad[0]) for ad in ads]
     con.close()
     return render_template("index.html",
                            ads=ads,
