@@ -1,7 +1,7 @@
 import base64
 import datetime
 import os
-import random
+import requests
 import utils
 from flask import Flask, redirect, url_for, render_template, request
 import sqlite3
@@ -18,7 +18,7 @@ current_user: User = None
 @app.route('/index.html')
 def home():
     con = sqlite3.connect("Users.db")
-    ads = con.execute("SELECT * FROM Ad").fetchall()[:6]
+    ads = con.execute("SELECT * FROM Ad").fetchall()[-6:]
     con.close()
     return render_template("index.html",
                            ads=ads,
@@ -34,7 +34,8 @@ def post_ad():
         try:
             con = sqlite3.connect("Users.db")
             form = request.form
-            ad_id = hex(abs(hash(str(datetime.datetime.now()) + current_user.username + form.get("ISBN")))).lstrip("0x").rstrip("L")
+            ad_id = hex(abs(hash(str(datetime.datetime.now()) + current_user.username + form.get("ISBN")))).lstrip(
+                "0x").rstrip("L")
             con.execute('INSERT INTO Ad VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
                         [f'{form.get("title")}',
                          f'{form.get("domain")}',
@@ -56,11 +57,11 @@ def post_ad():
             files = request.files.getlist('images')
             print(files)
             for file in files:
-                image_path = os.path.join(app.config["UPLOAD_FOLDER"], (ad_id + "_"+file.filename))
+                image_path = os.path.join(app.config["UPLOAD_FOLDER"], (ad_id + "_" + file.filename))
                 con.execute("INSERT INTO post_images(post_id, image_path) VALUES(?,?)",
                             [
                                 ad_id,
-                                str(image_path).replace("static\\","")
+                                str(image_path).replace("static\\", "")
                             ]
                             )
                 file.save(image_path)
@@ -131,19 +132,19 @@ def allads():
         images.append(img)
     print(images)
     con.close()
-    return render_template("allads.html", ads=ads, images = images)
+    return render_template("allads.html", ads=ads, images=images)
 
 
 @app.route("/product")
 def product():
     id = request.args.get("id")
-    print("id",id)
+    print("id", id)
     con = sqlite3.connect("Users.db")
-    ad = con.execute(f"SELECT * FROM Ad JOIN Users ON Ad.username = Users.username WHERE ad_id = ?",(id,)).fetchone()
+    ad = con.execute(f"SELECT * FROM Ad JOIN Users ON Ad.username = Users.username WHERE ad_id = ?", (id,)).fetchone()
     print(ad)
     images = con.execute(f"SELECT image_path FROM post_images WHERE post_id = ?", (ad[9],)).fetchall()
-    if not ad[9] == current_user.username:
-        con.execute("Update Ad SET views = IFNULL(views, 0) + 1 WHERE ad_id = ?",(id,))
+    if current_user is not None and not ad[9] == current_user.username:
+        con.execute("Update Ad SET views = IFNULL(views, 0) + 1 WHERE ad_id = ?", (id,))
         con.commit()
     images = [i[0] for i in images]
     con.close()
@@ -152,7 +153,7 @@ def product():
                            price=ad[7],
                            domain=ad[1],
                            seller=ad[6],
-                           seller_phone=ad[13], #KEPT AS EMAIL ID FOR NOW
+                           seller_phone=ad[13],
                            state=ad[2],
                            author=ad[4],
                            ISBN=ad[5],
@@ -162,11 +163,35 @@ def product():
                            )
 
 
+@app.route("/category.html")
+@app.route("/category", methods=["GET", "POST"])
+def category():
+    con = sqlite3.connect("Users.db")
+    print("category")
+    if request.method == "GET":
+        if len(request.args) == 0:
+            ads = con.execute("SELECT ad_id FROM Ad")
+            ads = [utils.get_ad(ad[0]) for ad in ads]
+            print(ads)
+
+            con.close()
+            return render_template("category.html", ads=ads)
+        ads = utils.search(request.args.to_dict())
+        print(ads)
+        return render_template("category.html", ads=ads)
+
+    if request.method == "POST":
+        ads = utils.search(request.form.to_dict())
+        print(ads)
+        return render_template("category.html", ads=ads)
+
+
 @app.route("/myads.html")
 def myads():
     ads = sqlite3.connect("Users.db").execute("SELECT * FROM Ad WHERE username = ?", (current_user.username,))
-    ads = [{"title":ad[0], "image":utils.get_images(ad[9])[0], "category":ad[1], 'views':ad[13], 'status':ad[11]} for ad in ads]
-    return render_template("myads.html",my_ads=ads)
+    ads = [{"title": ad[0], "image": utils.get_images(ad[9])[0], "category": ad[1], 'views': ad[13], 'status': ad[11]}
+           for ad in ads]
+    return render_template("myads.html", my_ads=ads)
 
 
 @app.route("/<resourcename>")
