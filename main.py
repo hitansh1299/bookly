@@ -258,10 +258,11 @@ def editad(ad_id=""):
             request.form.get("ISBN"),
             request.form.get("price"),
             request.form.get("desc"),
-            request.form.get("age_group"),
+            request.form.get("age-group"),
             request.args.get("ad_id")
         ])
-        if not request.form.get("images"):
+        print(request.form.get("images"))
+        if request.form.get("images") is not None:
             files = request.files.getlist('images')
             for file in files:
                 image_path = os.path.join(app.config["UPLOAD_FOLDER"], (ad_id + "_" + file.filename))
@@ -274,6 +275,7 @@ def editad(ad_id=""):
                 con.execute("DELETE FROM post_images WHERE post_id = ?",[ad_id])
                 file.save(image_path)
         con.commit()
+        con.close()
         return redirect(url_for('myads'))
 
 
