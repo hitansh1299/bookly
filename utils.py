@@ -39,6 +39,7 @@ def search(params: {str: str}) -> {str:str}:
     con.set_trace_callback(print)
     ads = con.cursor().execute('''
                             SELECT ad_id FROM Ad WHERE UPPER(domain) LIKE ? AND 
+                            status = 'Active' AND
                             UPPER(age_group) LIKE ? AND 
                             UPPER(state) LIKE ? AND 
                             UPPER(ISBN) LIKE ? AND 
@@ -46,6 +47,7 @@ def search(params: {str: str}) -> {str:str}:
                             price <= ? AND 
                             (UPPER(title) LIKE ? OR 
                             UPPER(desc) LIKE ?)
+                            ORDER BY date DESC
                           ''',
                                [
                                    f'%{params.get("domain").upper()}%' if not params.get("domain","Any") == 'Any' else '%',
