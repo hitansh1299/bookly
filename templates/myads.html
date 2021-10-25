@@ -134,7 +134,7 @@
                         <div class="admin-box">
                             <div class="user">
                                 <div class="username colorcodebage">
-                                    <h3>{{my_ads[0]['username']}}</h3>
+                                    <h3>{{username}}</h3>
 
                                 </div>
                             </div>
@@ -166,23 +166,6 @@
                 </div>
                 <div class="col-lg-9">
                     <div class="row">
-                        <div class="col-xl-12 col-lg-12">
-                            <div class="row margin_10px">
-                                <div class="zeropadd col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                    <p>14 ads by <strong>Maida Themes</strong></p>
-                                </div>
-                                <div class=" zeropadd col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                    <div class="widget widget_search">
-                                        <form id="search-form">
-                                            <input type="search" class="form-control" autocomplete="off" name="s"
-                                                   placeholder="Search..."
-                                                   id="search-input" value="">
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 margin_10px">
                             <div class="wrappingrow borderingnew d-sm-none d-xl-block d-lg-block d-md-none d-none">
                                 <div class="row cardtag">
@@ -215,7 +198,7 @@
                                         <div class="btns-actions">
                                             <a class="btn-action btn-view" href="#"><i class="fa fa-eye"></i>
                                                 {{ad['views']}} </a>
-                                            <a class="btn-action btn-edit" href="#"><i class="fa fa-pencil"></i>
+                                            <a class="btn-action btn-edit" href="{{url_for('editad',ad_id=ad['ad_id'])}}"><i class="fa fa-pencil"></i>
                                                 Edit</a>
                                             <a class="btn-action btn-delete" href="{{url_for('delete',ad_id=ad['ad_id'])}}"><i class="fa fa-trash"></i> Delete</a>
                                         </div>

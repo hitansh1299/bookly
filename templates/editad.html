@@ -1,4 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html><!doctype html>
 <html class="no-js" lang="zxx">
 <head>
     <meta charset="utf-8">
@@ -35,6 +44,8 @@
     -webkit-animation: spinner-grow .75s linear infinite;
     animation: spinner-grow .75s linear infinite;
   }
+
+
 
 
 
@@ -86,7 +97,6 @@
                         </li>
 
 
-
                         <li class="nav-item">
                             <a class="nav-link" href="aboutus.html">About Us
                                 <span class="sr-only">(current)</span>
@@ -113,7 +123,8 @@
                             <ul class="dropdown-menu border-0 shadow">
                                 <li><a href="dashboard.html" class="dropdown-item"><i class="fa fa-dashboard"></i>
                                     Dashboard</a></li>
-                                <li><a href="loginRegister.html" class="dropdown-item"><i class="fa fa-sign-out"></i> Logout</a>
+                                <li><a href="loginRegister.html" class="dropdown-item"><i class="fa fa-sign-out"></i>
+                                    Logout</a>
                                 </li>
                             </ul>
                         </li>
@@ -177,18 +188,20 @@
                                     </div>
                                     <div class="col-lg-9">
                                         <div class="col-sm-12 background_white">
-                                            <form method="post" class="row" action={{url_for('post_ad')}}
+                                            <form method="post" class="row" action={{url_for('editad',ad_id=ad['ad_id'])}}
                                                   enctype="multipart/form-data">
-                                                <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 col-12">
+                                                <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 col-12 ">
                                                     <div class="form-group ">
                                                         <label class="font-weight-bold">Ad title</label>
-                                                        <input type="text" class="form-control" name="title" required>
+                                                        <input type="text" class="form-control" name="title"
+                                                               value="{{ad['title']}}" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 col-12 ">
                                                     <div class="form-group ">
-                                                        <label class="font-weight-bold">Select Domain</label>
+                                                        <label class="font-weight-bold">Domain</label>
                                                         <select class="form-control" name="domain">
+                                                            <option>{{ad['category']}}</option>
                                                             <option>Architecture</option>
                                                             <option>Biology</option>
                                                             <option>Chemistry</option>
@@ -208,6 +221,7 @@
                                                     <div class="form-group ">
                                                         <label class="font-weight-bold">Age group</label>
                                                         <select class="form-control" name="age-group">
+                                                            <option>{{ad['age_group']}}</option>
                                                             <option>0-3 Years</option>
                                                             <option>Kindergarten</option>
                                                             <option>Primary</option>
@@ -224,6 +238,7 @@
                                                     <div class="form-group ">
                                                         <label class="font-weight-bold">Select Location State</label>
                                                         <select class="form-control" name="state">
+                                                            <option value="Any">{{ad['state']}}</option>
                                                             <option value="Andhra Pradesh">Andhra Pradesh</option>
                                                             <option value="Andaman and Nicobar Islands">Andaman and
                                                                 Nicobar Islands
@@ -270,26 +285,29 @@
                                                 <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 col-12 ">
                                                     <div class="form-group ">
                                                         <label class="font-weight-bold">City/Town</label>
-                                                        <input type="text" class="form-control" name="city" required>
+                                                        <input type="text" class="form-control" name="city" required
+                                                               value="{{ad['city']}}">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 col-12 ">
                                                     <div class="form-group ">
                                                         <label class="font-weight-bold">Author</label>
-                                                        <input type="text" class="form-control" name="author">
+                                                        <input type="text" class="form-control" name="author"
+                                                               value="{{ad['author']}}">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 col-12 ">
                                                     <div class="form-group ">
                                                         <label class="font-weight-bold">ISBN Code</label>
-                                                        <input type="text" class="form-control" name="ISBN">
+                                                        <input type="text" class="form-control" name="ISBN"
+                                                               value="{{ad['ISBN']}}">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-xl-6 col-lg-6 col-sm-12 col-12">
                                                     <div class="form-group ">
                                                         <label class="font-weight-bold">Price</label>
                                                         <input type="text" class="form-control"
-                                                               value="" required="" name="price">
+                                                               value="{{ad['price']}}" required="" name="price">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 col-xl-12 col-lg-12 col-sm-12 col-12 ">
@@ -298,8 +316,12 @@
                                                             <span><i class="fa fa-upload"></i> Upload Images</span>
                                                             <input type="file" class="d-none" name="images"
                                                                    multiple="" accept="image/*" id="file-input"
-                                                                   required><br>
-                                                            <div id="preview"></div>
+                                                            ><br>
+                                                            <div id="preview">
+                                                                {%for image in ad['images']%}
+                                                                <img src="{{image}}" alt="image" height="100">
+                                                                {%endfor%}
+                                                            </div>
                                                             <script>
                                                                     function previewImages() {
                                                                           var preview = document.querySelector('#preview');
@@ -331,9 +353,6 @@
 
                                                                         }
                                                                     document.querySelector('#file-input').addEventListener("change", previewImages);
-
-
-
                                                             </script>
                                                         </label>
                                                     </div>
@@ -343,12 +362,12 @@
                                                         <label class="font-weight-bold ">Description</label>
                                                         <textarea cols="50"
                                                                   class=" sizetextarea col-md-12 col-xl-12 col-lg-12 col-sm-12 col-12"
-                                                                  name="desc"></textarea>
+                                                                  name="desc">{{ad['desc']}}</textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 col-xl-12 col-lg-12 col-sm-12 col-12 ">
                                                     <div class="form-group ">
-                                                        <input type="submit" value="Post" class="custom-button">
+                                                        <input type="submit" value="Update" class="custom-button">
                                                     </div>
                                                 </div>
                                             </form>

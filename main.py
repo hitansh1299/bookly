@@ -188,6 +188,8 @@ def product():
                            desc=ad[8],
                            images=images
                            )
+
+
 @app.route("/category.html")
 @app.route("/category", methods=["GET", "POST"])
 def category():
@@ -208,14 +210,65 @@ def category():
     if request.method == "POST":
         ads = utils.search(request.form.to_dict())
         print(ads)
-        return render_template("category.html", ads=ads, query=request.form.to_dict())
+        return render_template("category.html", ads=ads, query=request.form.to_dict(),username=current_user.username)
 
 
 @app.route("/myads.html")
 def myads():
     ads = sqlite3.connect("Users.db").execute("SELECT ad_id FROM Ad WHERE username = ?", (current_user.username,)).fetchall()
     ads = [utils.get_ad(ad[0]) for ad in ads]
-    return render_template("myads.html", my_ads=ads)
+    return render_template("myads.html", my_ads=ads, username=current_user.username)
+
+
+@app.route("/editad.html",methods=["GET","POST" ])
+@app.route("/editad", methods=["GET","POST" ])
+def editad(ad_id=""):
+    if request.method == "GET":
+        return render_template("editad.html", ad=utils.get_ad(request.args['ad_id']),username=current_user.username)
+    if request.method == "POST":
+        print(request.form)
+        con = sqlite3.connect("Users.db")
+        con.set_trace_callback(print)
+        con.execute('''
+        UPDATE Ad SET 
+        title = ?,
+        domain = ?,
+        state = ?,
+        city = ?,
+        author = ?,
+        ISBN = ?,
+        price = ?,
+        desc = ?,
+        age_group = ?
+        WHERE ad_id = ?
+        ''',
+        [
+            request.form.get("title"),
+            request.form.get("domain"),
+            request.form.get("state"),
+            request.form.get("city"),
+            request.form.get("author"),
+            request.form.get("ISBN"),
+            request.form.get("price"),
+            request.form.get("desc"),
+            request.form.get("age_group"),
+            request.args.get("ad_id")
+        ])
+        if not request.form.get("images"):
+            files = request.files.getlist('images')
+            for file in files:
+                image_path = os.path.join(app.config["UPLOAD_FOLDER"], (ad_id + "_" + file.filename))
+                con.execute("INSERT INTO post_images(post_id, image_path) VALUES(?,?)",
+                            [
+                                ad_id,
+                                str(image_path).replace("static\\", "")
+                            ]
+                            )
+                con.execute("DELETE FROM post_images WHERE post_id = ?",[ad_id])
+                file.save(image_path)
+        con.commit()
+        return redirect(url_for('myads'))
+
 
 @app.route("/delete/<ad_id>")
 def delete(ad_id):
