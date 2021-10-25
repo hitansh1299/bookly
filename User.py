@@ -8,8 +8,8 @@ class User:
         self.password = user[1]
         self.email = user[2]
         self.phone = user[3]
-        self.first_name = user[5]
-        self.last_name = user[6]
+        self.first_name = user[4]
+        self.last_name = user[5]
 
     def get_as_dict(self) -> {str,str}:
         return self.__dict__
