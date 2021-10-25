@@ -178,8 +178,18 @@
                                     <div class="col-sm-12 ">
                                         <form method="post" id="singnupFrom">
                                             <div class="form-group">
+                                                <label class="font-weight-bold">First Name<span class="text-danger">*</span></label>
+                                                <input type="text"  class="form-control" name="fname"
+                                                       placeholder="Enter valid email" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="font-weight-bold">Last Name<span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" name="lname"
+                                                       placeholder="Enter valid email" required>
+                                            </div>
+                                            <div class="form-group">
                                                 <label class="font-weight-bold">Email <span class="text-danger">*</span></label>
-                                                <input type="email" id="signupemail" class="form-control" name="email"
+                                                <input type="email" class="form-control" name="email"
                                                        placeholder="Enter valid email" required>
                                                 <div class="text-danger"><em>{{email_text}}</em></div>
                                             </div>
@@ -195,6 +205,13 @@
                                                 <label class="font-weight-bold">Phone Number</label>
                                                 <input type="text" id="signupphone" class="form-control"
                                                        placeholder="(000)-(0000000)" name="phone">
+                                                 <div class="text-danger"><em>{{phone_text}}</em></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="font-weight-bold">Aadhar ID</label>
+                                                <input type="text" id="aadhar" class="form-control"
+                                                       placeholder="XXXX XXXX XXXX" name="aadhar">
+                                                 <div class="text-danger"><em>{{aadhar_text}}</em></div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="font-weight-bold">Password <span

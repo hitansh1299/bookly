@@ -3,7 +3,7 @@ import os
 import utils
 from flask import Flask, redirect, url_for, render_template, request
 import sqlite3
-from CustomErrors import UsernameError
+from CustomErrors import UsernameError, PhoneError, AadharError
 from User import User
 
 app = Flask(__name__, static_folder="static", static_url_path="", template_folder="templates")
@@ -90,8 +90,20 @@ def login():
         try:
             if len(con.execute(f'SELECT * FROM Users WHERE username = "{form.get("username")}"').fetchall()) > 0:
                 raise UsernameError
+            if len(form.get("phone")) != 10:
+                raise PhoneError
+            if len(form.get("aadhar").replace(" ","")) != 12:
+                raise PhoneError
             con.execute(
-                f'INSERT INTO Users VALUES("{form.get("username")}","{form.get("password")}","{form.get("email")}","{form.get("phone")}")')
+                f'INSERT INTO Users VALUES(?,?,?,?,?,?,?)',[
+                    form.get("username"),
+                    form.get("password"),
+                    form.get("email"),
+                    form.get("phone"),
+                    form.get("fname"),
+                    form.get("lname"),
+                    form.get("aadhar")
+                ])
             con.commit()
             global current_user
             current_user = User(form.get("username"))
@@ -104,6 +116,16 @@ def login():
         except UsernameError as e:
             return render_template('loginRegister.html',
                                    username_text=str(e),
+                                   show_signup="show active",
+                                   show_signin="")
+        except PhoneError as e:
+            return render_template('loginRegister.html',
+                                   phone_text=str(e),
+                                   show_signup="show active",
+                                   show_signin="")
+        except AadharError as e:
+            return render_template('loginRegister.html',
+                                   aadhar_text=str(e),
                                    show_signup="show active",
                                    show_signin="")
 
