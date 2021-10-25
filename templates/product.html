@@ -80,40 +80,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="category.html">Advance Search</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                               class="nav-link dropdown-toggle">Categories <i class="fa fa-angle-down"></i></a>
-                            <ul class="dropdown-menu border-0 shadow">
-                                <li><a href="category.html" class="dropdown-item">Jobs </a></li>
-                                <li><a href="category.html" class="dropdown-item">Properties</a></li>
-                                <!-- Level two dropdown-->
-                                <li class="dropdown-submenu">
-                                    <a href="category.html" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false" class="dropdown-item dropdown-toggle">Phones</a>
-                                    <ul class="dropdown-menu border-0 shadow">
-                                        <li>
-                                            <a tabindex="-1" href="category.html" class="dropdown-item">Apple</a>
-                                        </li>
-                                        <li><a href="category.html" class="dropdown-item">Samsung</a></li>
-                                        <li><a href="category.html" class="dropdown-item">LG</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown-submenu">
-                                    <a href="category.html" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false" class="dropdown-item dropdown-toggle">Cars</a>
-                                    <ul class="dropdown-menu border-0 shadow">
-                                        <li>
-                                            <a tabindex="-1" href="category.html" class="dropdown-item">Toyota</a>
-                                        </li>
-                                        <li><a href="category.html" class="dropdown-item">Suzuki</a></li>
-                                        <li><a href="category.html" class="dropdown-item">Honda</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="category.html" class="dropdown-item">Rent</a></li>
-                                <li><a href="category.html" class="dropdown-item">Serviecs</a></li>
-
-                            </ul>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="aboutus.html">About Us
                                 <span class="sr-only">(current)</span>
@@ -127,9 +93,8 @@
                         <li class="nav-item">
                             <a class="nav-link" href="contactus.html">Contact Us</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="loginRegister.html"><i class="fa fa-user" aria-hidden="true"></i>Login
-                                / Register</a>
+                      <li class="nav-item">
+                            <a class="nav-link" href="dashboard.html"><i class="fa fa-user" aria-hidden="true"></i>{{username if username is not none else 'Login / Register'}}</a>
                         </li>
                         <li class="nav-item  bordering">
                             <a class="nav-link" href="postad.html">Post Free Ad</a>
@@ -192,9 +157,11 @@
                 <div class="col-lg-4 col-md-12 col-xs-12 first-height">
                     <div class="boxwedigt margin_10px ">
                         <div class="text-center">
-                            <h4><i class="fa fa-inr"></i> <span class="karma">3000.0</span></h4>
+                            <h4><i class="fa fa-inr"></i> <span class="karma">{{price}}</span></h4>
+                            <br>
+                            <h5><span class="karma"><strong>Age Group:</strong> {{age_group}}</span></h5>
 
-                            <p class="margin_10px"><a href="#"><i class="fa fa-list-alt"></i> {{domain}}</a></p>
+                            <h5 class="margin_10px"><a href="#"><i class="fa fa-list-alt"></i> {{domain}}</a></h5>
                         </div>
                     </div>
 
@@ -203,7 +170,7 @@
                             <h4><a href="#"><i class="fa fa-user"></i> <span class="karma">{{seller}}</span></a></h4>
                             <img src="img/logo.png" class="rounded-circle square-height max-width-50px margin_10px">
                             <div class="clearfix"></div>
-                            <p class="margin_10px mb-0"><a href="tel:#"><strong><i class="fa fa-envelope"></i>
+                            <p class="margin_10px mb-0"><a href="mailto:{{seller_phone}}"><strong><i class="fa fa-envelope"></i>
                                 {{seller_phone}}</strong></a></p>
                         </div>
                     </div>
@@ -291,17 +258,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12">
-                        <h3>Popular Categories</h3>
-                        <ul>
-                            <li><a href="category.html">Properties</a></li>
-                            <li><a href="category.html">Jobs</a></li>
-                            <li><a href="category.html">Phones</a></li>
-                            <li><a href="category.html">Cars</a></li>
-                            <li><a href="category.html">Rent</a></li>
-                            <li><a href="category.html">Electronics</a></li>
-                        </ul>
-                    </div>
+
 
                     <div class="col-lg-3 col-md-6 col-sm-12">
                         <h3>Important Links</h3>
@@ -309,7 +266,7 @@
                             <li><a href="index.html">Home</a></li>
                             <li><a href="aboutus.html">About</a></li>
                             <li><a href="contactus.html">Contact Us</a></li>
-                            <li><a href="#">Login</a></li>
+                            <li><a href="loginRegister.html">Login</a></li>
 
                             <li><a href="faq.html">Faqs</a></li>
                         </ul>

@@ -35,20 +35,6 @@
     -webkit-animation: spinner-grow .75s linear infinite;
     animation: spinner-grow .75s linear infinite;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </style>
 </head>
 <body>
@@ -106,8 +92,7 @@
                             <a class="nav-link" href="contactus.html">Contact Us</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="loginRegister.html"><i class="fa fa-user" aria-hidden="true"></i>Login
-                                / Register</a>
+                            <a class="nav-link" href="dashboard.html"><i class="fa fa-user" aria-hidden="true"></i>{{username if username is not none else 'Login / Register'}}</a>
                         </li>
                         <li class="nav-item  bordering">
                             <a class="nav-link" href="postad.html">Post Free Ad</a>
@@ -279,10 +264,10 @@
                                     </a>
                                 </div>
                                 <div class="post-box-content">
-                                    <h3><a href="#">{{ad['title']}}</a></h3>
+                                    <h3><a href="product?id={{ad['ad_id']}}">{{ad['title']}}</a></h3>
 
                                     <div class="post-category">
-                                        <a href="#"> <i class="fa fa-list-alt"></i>{{ad['category']}}</a>
+                                        <a href="category?domain={{ad['category']}}"> <i class="fa fa-list-alt"></i>{{ad['category']}}</a>
                                     </div>
                                     <div class="post-location">
                                         <a href="#"> <i class="fa fa-location-arrow"></i>{{ad['city']}}</a>
@@ -320,17 +305,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12">
-                        <h3>Popular Categories</h3>
-                        <ul>
-                            <li><a href="category.html">Properties</a></li>
-                            <li><a href="category.html">Jobs</a></li>
-                            <li><a href="category.html">Phones</a></li>
-                            <li><a href="category.html">Cars</a></li>
-                            <li><a href="category.html">Rent</a></li>
-                            <li><a href="category.html">Electronics</a></li>
-                        </ul>
-                    </div>
+
 
                     <div class="col-lg-3 col-md-6 col-sm-12">
                         <h3>Important Links</h3>
@@ -338,7 +313,7 @@
                             <li><a href="index.html">Home</a></li>
                             <li><a href="aboutus.html">About</a></li>
                             <li><a href="contactus.html">Contact Us</a></li>
-                            <li><a href="#">Login</a></li>
+                            <li><a href="loginRegister.html">Login</a></li>
 
                             <li><a href="faq.html">Faqs</a></li>
                         </ul>

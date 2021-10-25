@@ -25,7 +25,7 @@ def home():
     con.close()
     return render_template("index.html",
                            ads=ads,
-                           username="Login / Register" if current_user is None else current_user.username,
+                           username=current_user.username if current_user is not None else None,
                            profile_link="loginRegister.html" if current_user is None else "dashboard.html",
                            count=count
                            )
@@ -33,8 +33,10 @@ def home():
 
 @app.route('/postad.html', methods=["GET", "POST"])
 def post_ad():
+    if current_user is None:
+        return redirect(url_for('login'))
     if request.method == "GET":
-        return render_template('postad.html', username=current_user.username)
+        return render_template('postad.html', username=current_user.username if current_user is not None else None)
     else:
         try:
             con = sqlite3.connect("Users.db")
@@ -79,11 +81,13 @@ def post_ad():
 @app.route('/loginRegister.html', methods=["GET", "POST"])
 @app.route('/', methods=["GET", "POST"])
 def login():
+    global current_user
     if request.method == "GET":
         return render_template('loginRegister.html',
                                username_text="",
                                show_signup="",
-                               show_signin="show active")
+                               show_signin="show active",
+                               username=current_user.username if current_user is not None else None)
     form = request.form
     if "signupsubmit" in form:
         con = sqlite3.connect('Users.db')
@@ -105,29 +109,32 @@ def login():
                     form.get("aadhar")
                 ])
             con.commit()
-            global current_user
             current_user = User(form.get("username"))
             con.close()
         except sqlite3.IntegrityError:
             return render_template('loginRegister.html',
                                    email_text="ACCOUNT WITH THIS EMAIL ALREADY EXISTS",
                                    show_signup="show active",
-                                   show_signin="")
+                                   show_signin="",
+                                   username=current_user.username if current_user is not None else None)
         except UsernameError as e:
             return render_template('loginRegister.html',
                                    username_text=str(e),
                                    show_signup="show active",
-                                   show_signin="")
+                                   show_signin="",
+                                   username=current_user.username if current_user is not None else None)
         except PhoneError as e:
             return render_template('loginRegister.html',
                                    phone_text=str(e),
                                    show_signup="show active",
-                                   show_signin="")
+                                   show_signin="",
+                                   username=current_user.username if current_user is not None else None)
         except AadharError as e:
             return render_template('loginRegister.html',
                                    aadhar_text=str(e),
                                    show_signup="show active",
-                                   show_signin="")
+                                   show_signin="",
+                                   username=current_user.username if current_user is not None else None)
 
     if "signinsubmit" in form:
         con = sqlite3.connect('Users.db')
@@ -138,7 +145,8 @@ def login():
             return render_template('loginRegister.html',
                                    signin_text="USERNAME OR PASSWORD INCORRECT!",
                                    show_signup="",
-                                   show_signin="show active")
+                                   show_signin="show active",
+                                   username=current_user.username if current_user is not None else None)
         current_user = User(username)
         con.close()
 
@@ -159,7 +167,7 @@ def allads():
         images.append(img)
     print(images)
     con.close()
-    return render_template("allads.html", ads=ads, images=images)
+    return render_template("allads.html", ads=ads, images=images, username=current_user.username if current_user is not None else None)
 
 
 @app.route("/product")
@@ -186,7 +194,9 @@ def product():
                            ISBN=ad[5],
                            city=ad[3],
                            desc=ad[8],
-                           images=images
+                           images=images,
+                           age_group=ad[10],
+                           username=current_user.username if current_user is not None else None
                            )
 
 
@@ -199,18 +209,15 @@ def category():
         if len(request.args) == 0:
             ads = con.execute("SELECT ad_id FROM Ad WHERE status = 'Active' ORDER BY date DESC")
             ads = [utils.get_ad(ad[0]) for ad in ads]
-            print(ads)
 
             con.close()
-            return render_template("category.html", ads=ads, query={})
+            return render_template("category.html", ads=ads, query={}, username=current_user.username if current_user is not None else None)
         ads = utils.search(request.args.to_dict())
-        print(ads)
-        return render_template("category.html", ads=ads, query=request.args.to_dict())
+        return render_template("category.html", ads=ads, query=request.args.to_dict(), username=current_user.username if current_user is not None else None)
 
     if request.method == "POST":
         ads = utils.search(request.form.to_dict())
-        print(ads)
-        return render_template("category.html", ads=ads, query=request.form.to_dict(),username=current_user.username)
+        return render_template("category.html", ads=ads, query=request.form.to_dict(), username=current_user.username if current_user is not None else None)
 
 
 @app.route("/myads.html")
@@ -224,7 +231,7 @@ def myads():
 @app.route("/editad", methods=["GET","POST" ])
 def editad(ad_id=""):
     if request.method == "GET":
-        return render_template("editad.html", ad=utils.get_ad(request.args['ad_id']),username=current_user.username)
+        return render_template("editad.html", ad=utils.get_ad(request.args['ad_id']),username=current_user.username if current_user is not None else None)
     if request.method == "POST":
         print(request.form)
         con = sqlite3.connect("Users.db")
@@ -297,6 +304,8 @@ def toggle_status(ad_id):
 @app.route("/dashboard",methods=["GET", "POST"])
 def dashboard():
     global current_user
+    if current_user == None:
+        return redirect("loginRegister.html")
     if request.method == "POST":
         con = sqlite3.connect("Users.db")
         con.execute('''UPDATE Users SET 
@@ -316,16 +325,15 @@ def dashboard():
                     ])
         con.commit()
         current_user = User(current_user.username)
-        return render_template("dashboard.html", user=current_user.get_as_dict())
+        return render_template("dashboard.html", user=current_user.get_as_dict(), username=current_user.username if current_user is not None else None)
 
-    return render_template("dashboard.html",user=current_user.get_as_dict())
+    return render_template("dashboard.html",user=current_user.get_as_dict(), username=current_user.username if current_user is not None else None)
 
 
 @app.route("/<resourcename>")
 def get_resource(resourcename):
     print(resourcename)
-    return render_template(resourcename)
-
+    return render_template(resourcename, username=current_user.username if current_user is not None else None)
 
 if __name__ == '__main__':
     app.run(port=912)
