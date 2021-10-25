@@ -40,6 +40,7 @@
 
 
 
+
     </style>
 </head>
 <body>
@@ -80,54 +81,19 @@
                         <li class="nav-item">
                             <a class="nav-link" href="category.html">Advance Search</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                               class="nav-link dropdown-toggle">Categories <i class="fa fa-angle-down"></i></a>
-                            <ul class="dropdown-menu border-0 shadow">
-                                <li><a href="category.html" class="dropdown-item">Jobs </a></li>
-                                <li><a href="category.html" class="dropdown-item">Properties</a></li>
-                                <!-- Level two dropdown-->
-                                <li class="dropdown-submenu">
-                                    <a href="category.html" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false"
-                                       class="dropdown-item dropdown-toggle">Phones</a>
-                                    <ul class="dropdown-menu border-0 shadow">
-                                        <li>
-                                            <a tabindex="-1" href="category.html" class="dropdown-item">Apple</a>
-                                        </li>
-                                        <li><a href="category.html" class="dropdown-item">Samsung</a></li>
-                                        <li><a href="category.html" class="dropdown-item">LG</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown-submenu">
-                                    <a href="category.html" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false"
-                                       class="dropdown-item dropdown-toggle">Cars</a>
-                                    <ul class="dropdown-menu border-0 shadow">
-                                        <li>
-                                            <a tabindex="-1" href="category.html" class="dropdown-item">Toyota</a>
-                                        </li>
-                                        <li><a href="category.html" class="dropdown-item">Suzuki</a></li>
-                                        <li><a href="category.html" class="dropdown-item">Honda</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="category.html" class="dropdown-item">Rent</a></li>
-                                <li><a href="category.html" class="dropdown-item">Serviecs</a></li>
 
-                            </ul>
-                        </li>
 
 
                         <li class="nav-item">
-              <a class="nav-link" href="aboutus.html">About Us
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="faq.html">FAQ
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
+                            <a class="nav-link" href="aboutus.html">About Us
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="faq.html">FAQ
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="contactus.html">Contact Us</a>
@@ -152,59 +118,98 @@
             <div class="row">
                 <div class="col-12 text-center">
                     <div class="search_form search-adjust">
-                        <form class="row">
+                        <form class="row" action="{{url_for('category')}}" method="post">
                             <div class="form-group col-lg-4 col-sm-12">
-                                <input type="text" class="form-control" placeholder="What are you looking for?">
+                                <label class="font-weight-bold" style="color: black">Search Tag</label>
+                                <input type="text" class="form-control" placeholder="What are you looking for?"
+                                       name="text">
                             </div>
                             <div class="form-group col-lg-4 col-sm-12">
-                                <select class="form-control">
-                                    <option>All Categories</option>
-                                    <option>Cars</option>
-                                    <option>Properties</option>
-                                    <option>Jobs</option>
-                                    <option>Animals</option>
-                                    <option>Phone</option>
+                                <label class="font-weight-bold" style="color: black">Category</label>
+                                <select class="form-control" name="domain">
+                                    <option>Any</option>
+                                    <option>Architecture</option>
+                                    <option>Biology</option>
+                                    <option>Chemistry</option>
+                                    <option>Computer Science</option>
+                                    <option>Economics</option>
+                                    <option>Engineering</option>
+                                    <option>Languages</option>
+                                    <option>Law</option>
+                                    <option>Mathematics</option>
+                                    <option>Physics</option>
+                                    <option>Psychology</option>
+                                    <option>Social Studies</option>
                                 </select>
                             </div>
                             <div class="form-group col-lg-4 col-sm-12">
-                                <select class="form-control">
-                                    <option>Location</option>
-                                    <option>United Kingdom</option>
-                                    <option>Karachi</option>
-                                    <option>Japan</option>
-                                    <option>Australia</option>
-                                    <option>New York</option>
+                                <label class="font-weight-bold" style="color: black">Age group</label>
+                                <select class="form-control" name="age-group">
+                                    <option>Any</option>
+                                    <option>0-3 Years</option>
+                                    <option>Kindergarten</option>
+                                    <option>Primary</option>
+                                    <option>Junior Secondary</option>
+                                    <option>Senior Secondary</option>
+                                    <option>XI/XII</option>
+                                    <option>Undergraduate</option>
+                                    <option>Post Graduate</option>
+                                    <option>Open</option>
                                 </select>
                             </div>
                             <div class="form-group col-lg-4 col-sm-12">
-                                <select class="filter-make filter form-control">
-                                    <option value="">Select Make</option>
-                                    <option value="">Show All</option>
-                                    <option value="">Honda</option>
-                                    <option value="">Toyota</option>
-                                    <option value="">Faw</option>
+                                <label class="font-weight-bold" style="color: black">Select State</label>
+                                <select class="form-control" name="state">
+                                    <option>Any</option>
+                                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                    <option value="Andaman and Nicobar Islands">Andaman and
+                                        Nicobar Islands
+                                    </option>
+                                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                    <option value="Assam">Assam</option>
+                                    <option value="Bihar">Bihar</option>
+                                    <option value="Chandigarh">Chandigarh</option>
+                                    <option value="Chhattisgarh">Chhattisgarh</option>
+                                    <option value="Dadar and Nagar Haveli">Dadar and Nagar
+                                        Haveli
+                                    </option>
+                                    <option value="Daman and Diu">Daman and Diu</option>
+                                    <option value="Delhi">Delhi</option>
+                                    <option value="Lakshadweep">Lakshadweep</option>
+                                    <option value="Puducherry">Puducherry</option>
+                                    <option value="Goa">Goa</option>
+                                    <option value="Gujarat">Gujarat</option>
+                                    <option value="Haryana">Haryana</option>
+                                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                    <option value="Jharkhand">Jharkhand</option>
+                                    <option value="Karnataka">Karnataka</option>
+                                    <option value="Kerala">Kerala</option>
+                                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                    <option value="Maharashtra">Maharashtra</option>
+                                    <option value="Manipur">Manipur</option>
+                                    <option value="Meghalaya">Meghalaya</option>
+                                    <option value="Mizoram">Mizoram</option>
+                                    <option value="Nagaland">Nagaland</option>
+                                    <option value="Odisha">Odisha</option>
+                                    <option value="Punjab">Punjab</option>
+                                    <option value="Rajasthan">Rajasthan</option>
+                                    <option value="Sikkim">Sikkim</option>
+                                    <option value="Tamil Nadu">Tamil Nadu</option>
+                                    <option value="Telangana">Telangana</option>
+                                    <option value="Tripura">Tripura</option>
+                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                    <option value="Uttarakhand">Uttarakhand</option>
+                                    <option value="West Bengal">West Bengal</option>
                                 </select>
                             </div>
                             <div class="form-group col-lg-4 col-sm-12">
-                                <select class="filter-model filter form-control">
-                                    <option value="">Select Model</option>
-                                    <option value="">Show All</option>
-                                    <option value="">2010</option>
-                                    <option value="">2011</option>
-                                    <option value="">2012</option>
-                                    <option value="">2018</option>
-                                    <option value="">2019</option>
-                                    <option value="">Below 2010</option>
-                                </select>
+                                <label class="font-weight-bold" style="color: black">ISBN Code</label>
+                                <input type="text" class="form-control" name="ISBN">
                             </div>
                             <div class="form-group col-lg-4 col-sm-12">
-                                <select data-filter="type" class="filter-type filter form-control">
-                                    <option value="">Select Type</option>
-                                    <option value="">Show All</option>
-                                    <option value="">Auto</option>
-                                    <option value="">Manual</option>
-                                    <option value="">Sports</option>
-                                </select>
+                                <label class="font-weight-bold" style="color: black">Author</label>
+                                <input type="text" class="form-control" name="author">
                             </div>
                             <div class="form-group col-lg-12 col-sm-12">
                                 <div id="rangeBox">
@@ -212,44 +217,28 @@
                                         <div id="sliderBox" class="pricerange">
                                             <div class="row">
                                                 <div class="col-12 zeropadd row margin_5px">
-                                                    <p class="col-xl-1 col-lg-1 showprice d-none d-sm-none d-md-none d-lg-block d-xl-block">
-                                                        Price</p>
-                                                    <input type="range" id="slider0to50"
-                                                           class="col-xl-9 col-lg-9 col-md-12" min="0" max="50000">
-                                                    <span class="zeropadd col-xl-2 col-lg-2 col-md-12 row">
-                          <i class="col-xl-3 col-lg-3 col-md-2 col-sm-2 col-2 fa fa-inr"></i>
-                          <input type="number" min="0"
-                                 class=" form-control col-xl-9 col-lg-9 col-md-10 col-sm-10 col-10" max="50000"
-                                 placeholder="Min" id="min">
-                        </span>
-                                                </div>
-                                                <div class="col-12 zeropadd row margin_5px">
                                                     <p class="col-1 showprice d-none d-sm-none d-md-none d-lg-block d-xl-block">
-                                                        Price</p>
+                                                        <strong>Max Price</strong></p>
                                                     <input type="range" id="slider51to100"
-                                                           class="col-xl-9 col-lg-9 col-md-12" step="5" min="50000"
-                                                           max="1000000">
+                                                           class="col-xl-9 col-lg-9 col-md-12" step="1" min="0"
+                                                           max="5000">
                                                     <span class=" zeropadd col-xl-2 col-lg-2 col-md-12 row">
                           <i class="col-xl-3 col-lg-3 col-md-2 col-sm-2 col-2 fa fa-inr"></i>
-                          <input type="number" min="51"
-                                 class=" form-control col-xl-9 col-lg-9 col-md-10 col-sm-10 col-10 " max="100"
-                                 placeholder="Max" id="max">
+                          <input type="number" min="0"
+                                 class=" form-control col-xl-9 col-lg-9 col-md-10 col-sm-10 col-10 " max="5000"
+                                 placeholder="Max" id="max" name="max">
                         </span>
                                                 </div>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group col-lg-12 col-sm-12">
                                 <button type="submit" class="custom-button">Search</button>
                             </div>
-
                         </form>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -266,7 +255,7 @@
                             <li class="breadcrumb-item active" aria-current="page">All ads</li>
                         </ol>
                     </nav>
-                    <h2 class="styleh2 karma text-center">Latest Ads </h2>
+                    <h2 class="styleh2 karma text-center">All Ads </h2>
                 </div>
                 <div class="col-xl-12 col-lg-12 col-md-9 col-sm-12">
                     <div class="row">
@@ -318,9 +307,9 @@
                             <p>
                                 <img src="img/logo_200x200.png" class="max-width-100px" alt="logo"/>
                             </p>
-                            <p><i class="fa fa-phone"></i>  (+91) 9875532XXX</p>
+                            <p><i class="fa fa-phone"></i> (+91) 9875532XXX</p>
                             <p><i class="fa fa-envelope"></i> bookly.enquiry@gmail.com <br>
-                                </p>
+                            </p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-12">

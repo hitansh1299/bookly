@@ -46,6 +46,9 @@
 
 
 
+
+
+
     </style>
 </head>
 <body>
@@ -88,54 +91,16 @@
                         <li class="nav-item">
                             <a class="nav-link" href="category.html">Advance Search</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                               class="nav-link dropdown-toggle">Categories <i class="fa fa-angle-down"></i></a>
-                            <ul class="dropdown-menu border-0 shadow">
-                                <li><a href="category.html" class="dropdown-item">Jobs </a></li>
-                                <li><a href="category.html" class="dropdown-item">Properties</a></li>
-                                <!-- Level two dropdown-->
-                                <li class="dropdown-submenu">
-                                    <a href="category.html" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false"
-                                       class="dropdown-item dropdown-toggle">Phones</a>
-                                    <ul class="dropdown-menu border-0 shadow">
-                                        <li>
-                                            <a tabindex="-1" href="category.html" class="dropdown-item">Apple</a>
-                                        </li>
-                                        <li><a href="category.html" class="dropdown-item">Samsung</a></li>
-                                        <li><a href="category.html" class="dropdown-item">LG</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown-submenu">
-                                    <a href="category.html" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false"
-                                       class="dropdown-item dropdown-toggle">Cars</a>
-                                    <ul class="dropdown-menu border-0 shadow">
-                                        <li>
-                                            <a tabindex="-1" href="category.html" class="dropdown-item">Toyota</a>
-                                        </li>
-                                        <li><a href="category.html" class="dropdown-item">Suzuki</a></li>
-                                        <li><a href="category.html" class="dropdown-item">Honda</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="category.html" class="dropdown-item">Rent</a></li>
-                                <li><a href="category.html" class="dropdown-item">Serviecs</a></li>
-
-                            </ul>
-                        </li>
-
-
                         <li class="nav-item">
-              <a class="nav-link" href="aboutus.html">About Us
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="faq.html">FAQ
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
+                            <a class="nav-link" href="aboutus.html">About Us
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="faq.html">FAQ
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="contactus.html">Contact Us</a>
@@ -164,12 +129,12 @@
                             <div class="form-group col-lg-4 col-sm-12">
                                 <label class="font-weight-bold" style="color: black">Search Tag</label>
                                 <input type="text" class="form-control" placeholder="What are you looking for?"
-                                       name="text">
+                                       name="text" value="{{'' if not query['text'] else query['text']}}">
                             </div>
                             <div class="form-group col-lg-4 col-sm-12">
                                 <label class="font-weight-bold" style="color: black">Category</label>
                                 <select class="form-control" name="domain">
-                                    <option>Any</option>
+                                    <option>{{"Any" if not query['domain'] else query['domain']}}</option>
                                     <option>Architecture</option>
                                     <option>Biology</option>
                                     <option>Chemistry</option>
@@ -187,7 +152,7 @@
                             <div class="form-group col-lg-4 col-sm-12">
                                 <label class="font-weight-bold" style="color: black">Age group</label>
                                 <select class="form-control" name="age-group">
-                                    <option>Any</option>
+                                    <option>{{"Any" if not query['age_group'] else query['age-group']}}</option>
                                     <option>0-3 Years</option>
                                     <option>Kindergarten</option>
                                     <option>Primary</option>
@@ -202,7 +167,7 @@
                             <div class="form-group col-lg-4 col-sm-12">
                                 <label class="font-weight-bold" style="color: black">Select State</label>
                                 <select class="form-control" name="state">
-                                    <option>Any</option>
+                                    <option>{{"Any" if not query['state'] else query['state']}}</option>
                                     <option value="Andhra Pradesh">Andhra Pradesh</option>
                                     <option value="Andaman and Nicobar Islands">Andaman and
                                         Nicobar Islands
@@ -247,11 +212,13 @@
                             </div>
                             <div class="form-group col-lg-4 col-sm-12">
                                 <label class="font-weight-bold" style="color: black">ISBN Code</label>
-                                <input type="text" class="form-control" name="ISBN">
+                                <input type="text" class="form-control" name="ISBN"
+                                       value="{{'' if not query['ISBN'] else query['ISBN']}}">
                             </div>
                             <div class="form-group col-lg-4 col-sm-12">
                                 <label class="font-weight-bold" style="color: black">Author</label>
-                                <input type="text" class="form-control" name="author">
+                                <input type="text" class="form-control" name="author"
+                                       value="{{'' if not query['author'] else query['author']}}">
                             </div>
                             <div class="form-group col-lg-12 col-sm-12">
                                 <div id="rangeBox">
@@ -261,13 +228,14 @@
                                                 <div class="col-12 zeropadd row margin_5px">
                                                     <p class="col-1 showprice d-none d-sm-none d-md-none d-lg-block d-xl-block">
                                                         <strong>Max Price</strong></p>
-                                                    <input type="range" id="slider51to100"
+                                                    <input type="range" id="slider"
                                                            class="col-xl-9 col-lg-9 col-md-12" step="1" min="0"
                                                            max="5000">
                                                     <span class=" zeropadd col-xl-2 col-lg-2 col-md-12 row">
                           <i class="col-xl-3 col-lg-3 col-md-2 col-sm-2 col-2 fa fa-inr"></i>
                           <input type="number" min="0"
                                  class=" form-control col-xl-9 col-lg-9 col-md-10 col-sm-10 col-10 " max="5000"
+                                 value="{{'' if not query['price'] else query['price']}}"
                                  placeholder="Max" id="max" name="max">
                         </span>
                                                 </div>
@@ -298,7 +266,7 @@
                             <li class="breadcrumb-item active" aria-current="page">Category</li>
                         </ol>
                     </nav>
-                    <h2 class="styleh2 karma text-center">Phone </h2>
+                    <h3 class="styleh2 karma text-center">Search Results </h3>
                 </div>
                 <div class="col-xl-12 col-lg-12 col-md-9 col-sm-12">
                     <div class="row">
@@ -317,7 +285,7 @@
                                         <a href="#"> <i class="fa fa-list-alt"></i>{{ad['category']}}</a>
                                     </div>
                                     <div class="post-location">
-                                        <a href="#"> <i class="fa fa-location-arrow"></i>{{ad['city']}},{{ad['state']}}</a>
+                                        <a href="#"> <i class="fa fa-location-arrow"></i>{{ad['city']}}</a>
                                     </div>
                                     <div class="post-meta">
                                         <i class="fa fa-inr"></i>{{ad['price']}}
@@ -347,9 +315,9 @@
                             <p>
                                 <img src="img/logo_200x200.png" class="max-width-100px" alt="logo"/>
                             </p>
-                            <p><i class="fa fa-phone"></i>  (+91) 9875532XXX</p>
+                            <p><i class="fa fa-phone"></i> (+91) 9875532XXX</p>
                             <p><i class="fa fa-envelope"></i> bookly.enquiry@gmail.com <br>
-                                </p>
+                            </p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-12">

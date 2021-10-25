@@ -1,7 +1,5 @@
-import base64
 import datetime
 import os
-import requests
 import utils
 from flask import Flask, redirect, url_for, render_template, request
 import sqlite3
@@ -16,15 +14,21 @@ current_user: User = None
 
 
 @app.route('/index.html')
+@app.route('/index',methods=["GET", "POST"])
 def home():
     con = sqlite3.connect("Users.db")
-    ads = con.execute("SELECT ad_id FROM Ad").fetchall()[-6:]
+    if request.method == "POST":
+        return redirect(f'category?domain={request.form.get("domain")}&text={request.form.get("text")}')
+    ads = con.execute("SELECT ad_id FROM Ad WHERE status = 'Active'").fetchall()[-6:]
+    count = len(con.execute("SELECT * FROM Ad WHERE status = 'Active'").fetchall())
     ads = [utils.get_ad(ad[0]) for ad in ads]
     con.close()
     return render_template("index.html",
                            ads=ads,
                            username="Login / Register" if current_user is None else current_user.username,
-                           profile_link="loginRegister.html" if current_user is None else "dashboard.html")
+                           profile_link="loginRegister.html" if current_user is None else "dashboard.html",
+                           count=count
+                           )
 
 
 @app.route('/postad.html', methods=["GET", "POST"])
@@ -49,7 +53,7 @@ def post_ad():
                          f'{form.get("desc")}',
                          ad_id,
                          f'{form.get("age-group")}',
-                         "ACTIVE",
+                         "Active",
                          str(datetime.date.today()),
                          0
                          ]
@@ -122,7 +126,7 @@ def login():
 @app.route("/allads.html")
 def allads():
     con = sqlite3.connect("Users.db")
-    ads = con.execute("SELECT * FROM Ad").fetchall()
+    ads = con.execute("SELECT * FROM Ad WHERE status = 'Active' ORDER BY date DESC").fetchall()
     images = []
     for ad in ads:
         print(ad[9])
@@ -154,7 +158,7 @@ def product():
                            price=ad[7],
                            domain=ad[1],
                            seller=ad[6],
-                           seller_phone=ad[13],
+                           seller_phone=ad[16],
                            state=ad[2],
                            author=ad[4],
                            ISBN=ad[5],
@@ -162,8 +166,6 @@ def product():
                            desc=ad[8],
                            images=images
                            )
-
-
 @app.route("/category.html")
 @app.route("/category", methods=["GET", "POST"])
 def category():
@@ -171,28 +173,76 @@ def category():
     print("category")
     if request.method == "GET":
         if len(request.args) == 0:
-            ads = con.execute("SELECT ad_id FROM Ad")
+            ads = con.execute("SELECT ad_id FROM Ad WHERE status = 'Active' ORDER BY date DESC")
             ads = [utils.get_ad(ad[0]) for ad in ads]
             print(ads)
 
             con.close()
-            return render_template("category.html", ads=ads)
+            return render_template("category.html", ads=ads, query={})
         ads = utils.search(request.args.to_dict())
         print(ads)
-        return render_template("category.html", ads=ads)
+        return render_template("category.html", ads=ads, query=request.args.to_dict())
 
     if request.method == "POST":
         ads = utils.search(request.form.to_dict())
         print(ads)
-        return render_template("category.html", ads=ads)
+        return render_template("category.html", ads=ads, query=request.form.to_dict())
 
 
 @app.route("/myads.html")
 def myads():
-    ads = sqlite3.connect("Users.db").execute("SELECT * FROM Ad WHERE username = ?", (current_user.username,))
-    ads = [{"title": ad[0], "image": utils.get_images(ad[9])[0], "category": ad[1], 'views': ad[13], 'status': ad[11]}
-           for ad in ads]
+    ads = sqlite3.connect("Users.db").execute("SELECT ad_id FROM Ad WHERE username = ?", (current_user.username,)).fetchall()
+    ads = [utils.get_ad(ad[0]) for ad in ads]
     return render_template("myads.html", my_ads=ads)
+
+@app.route("/delete/<ad_id>")
+def delete(ad_id):
+    ad = utils.get_ad(ad_id)
+    if current_user.username == ad['username']:
+        con = sqlite3.connect("Users.db")
+        con.execute('DELETE FROM Ad WHERE ad_id = ?', [ad_id])
+        con.execute('DELETE FROM post_images WHERE post_id = ?', [ad_id])
+        con.commit()
+    return redirect(url_for('myads'))
+
+
+@app.route("/toggle_status/<ad_id>")
+def toggle_status(ad_id):
+    ad = utils.get_ad(ad_id)
+    if current_user.username == ad['username']:
+        con = sqlite3.connect("Users.db")
+        current_status = con.execute("SELECT status FROM Ad WHERE ad_id = ?", [ad_id]).fetchone()[0]
+        status = "Inactive" if current_status == "Active" else "Active"
+        con.execute('UPDATE Ad SET status = ? WHERE ad_id = ?', [status, ad_id])
+        con.commit()
+    return redirect(url_for('myads'))
+
+
+@app.route("/dashboard.html")
+@app.route("/dashboard",methods=["GET", "POST"])
+def dashboard():
+    if request.method == "POST":
+        con = sqlite3.connect("Users.db")
+        con.execute('''UPDATE User SET 
+        first_name = ?,
+        last_name = ?,
+        email = ?,
+        phone_no = ?,
+        password = ?
+        WHERE username = ?''',
+                    [
+                        request.form.get("fname"),
+                        request.form.get("lname"),
+                        request.form.get("email"),
+                        request.form.get("password"),
+                        request.form.get("phone")
+                    ])
+        con.commit()
+        global current_user
+        current_user = User(current_user.get_as_dict())
+        return render_template("dashboard.html", user=current_user.get_as_dict())
+
+    return render_template("dashboard.html",user=current_user.get_as_dict())
 
 
 @app.route("/<resourcename>")
@@ -203,3 +253,4 @@ def get_resource(resourcename):
 
 if __name__ == '__main__':
     app.run(port=912)
+

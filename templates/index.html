@@ -37,6 +37,8 @@
     }
 
 
+
+
     </style>
     <script src="https://kit.fontawesome.com/0eab3f28b6.js" crossorigin="anonymous"></script>
 </head>
@@ -74,44 +76,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="category.html">Advance Search</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                               class="nav-link dropdown-toggle">Categories <i class="fa fa-angle-down"></i></a>
-                            <ul class="dropdown-menu border-0 shadow">
-                                <li><a href="category.html" class="dropdown-item">Jobs </a></li>
-                                <li><a href="category.html" class="dropdown-item">Properties</a></li>
-                                <!-- Level two dropdown-->
-                                <li class="dropdown-submenu">
-                                    <a href="category.html" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false"
-                                       class="dropdown-item dropdown-toggle">Phones</a>
-                                    <ul class="dropdown-menu border-0 shadow">
-                                        <li>
-                                            <a tabindex="-1" href="category.html" class="dropdown-item">Apple</a>
-                                        </li>
-                                        <li><a href="category.html" class="dropdown-item">Samsung</a></li>
-                                        <li><a href="category.html" class="dropdown-item">LG</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown-submenu">
-                                    <a href="category.html" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false"
-                                       class="dropdown-item dropdown-toggle">Cars</a>
-                                    <ul class="dropdown-menu border-0 shadow">
-                                        <li>
-                                            <a tabindex="-1" href="category.html" class="dropdown-item">Toyota</a>
-                                        </li>
-                                        <li><a href="category.html" class="dropdown-item">Suzuki</a></li>
-                                        <li><a href="category.html" class="dropdown-item">Honda</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="category.html" class="dropdown-item">Rent</a></li>
-                                <li><a href="category.html" class="dropdown-item">Serviecs</a></li>
-
-                            </ul>
-                        </li>
-
-
                         <li class="nav-item">
                             <a class="nav-link" href="aboutus.html">About Us
                                 <span class="sr-only">(current)</span>
@@ -146,22 +110,29 @@
             <div class="row">
                 <div class="col-12 text-center">
                     <div class="tagline">
-                        <h1>Find Local Ads Near You</h1>
-                        <h2>Over 1 million+ Ads posted by our users.</h2>
+                        <h1>Find Books Near You</h1>
+                        <h2>{{count}} ads posted</h2>
                     </div>
                     <div class="search_form">
-                        <form class="row">
+                        <form class="row" action="{{url_for('home')}}" method="post">
                             <div class="form-group col-lg-4 col-sm-12">
-                                <input type="text" class="form-control" placeholder="What are you looking for?">
+                                <input type="text" class="form-control" placeholder="What are you looking for?" name="text">
                             </div>
                             <div class="form-group col-lg-4 col-sm-12">
-                                <select class="form-control">
-                                    <option>All Categories</option>
-                                    <option>Cars</option>
-                                    <option>Properties</option>
-                                    <option>Jobs</option>
-                                    <option>Animals</option>
-                                    <option>Phone</option>
+                                <select class="form-control" name="domain">
+                                    <option>Any</option>
+                                    <option>Architecture</option>
+                                    <option>Biology</option>
+                                    <option>Chemistry</option>
+                                    <option>Computer Science</option>
+                                    <option>Economics</option>
+                                    <option>Engineering</option>
+                                    <option>Languages</option>
+                                    <option>Law</option>
+                                    <option>Mathematics</option>
+                                    <option>Physics</option>
+                                    <option>Psychology</option>
+                                    <option>Social Studies</option>
                                 </select>
                             </div>
                             <div class="form-group col-lg-4 col-sm-12">
@@ -268,7 +239,7 @@
                         <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 margin_10px">
                             <div class="post-box">
                                 <div class="thumbnail-holder">
-                                    <a href="product?id={{ad[9]}}">
+                                    <a href="product?id={{ad['ad_id']}}">
                                         <img src="{{ad['images'][0]}}" alt="{ad[0]}">
                                     </a>
                                 </div>
@@ -311,9 +282,9 @@
                             <p>
                                 <img src="img/logo_200x200.png" class="max-width-100px" alt="logo"/>
                             </p>
-                            <p><i class="fa fa-phone"></i>  (+91) 9875532XXX</p>
+                            <p><i class="fa fa-phone"></i> (+91) 9875532XXX</p>
                             <p><i class="fa fa-envelope"></i> bookly.enquiry@gmail.com <br>
-                                </p>
+                            </p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-12">

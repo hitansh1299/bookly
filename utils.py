@@ -61,3 +61,8 @@ def search(params: {str: str}) -> {str:str}:
     ads = [get_ad(ad[0]) for ad in ads]
     return ads
 
+def get_user(username: str) -> {str:str}:
+    con = sqlite3.connect("Users.db")
+    user = con.execute("SELECT * FROM Users WHERE username = ?",[username]).fetchall()
+
+
