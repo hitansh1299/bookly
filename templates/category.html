@@ -215,12 +215,12 @@
                                                         <strong>Max Price</strong></p>
                                                     <input type="range" id="slider"
                                                            class="col-xl-9 col-lg-9 col-md-12" step="1" min="0"
-                                                           max="5000" oninput="document.getElementById('max').value = this.value" value="{{'' if not query['price'] else query['price']}}">
+                                                           max="5000" oninput="document.getElementById('max').value = this.value" value="{{'' if not query['max'] else query['max']}}">
                                                     <span class=" zeropadd col-xl-2 col-lg-2 col-md-12 row">
                           <i class="col-xl-3 col-lg-3 col-md-2 col-sm-2 col-2 fa fa-inr"></i>
                           <input type="number" min="0"
                                  class=" form-control col-xl-9 col-lg-9 col-md-10 col-sm-10 col-10 " max="5000"
-                                 value="{{'' if not query['price'] else query['price']}}"
+                                 value="{{'' if not query['max'] else query['max']}}"
                                  placeholder="Max" id="max" name="max">
                         </span>
                                                 </div>
