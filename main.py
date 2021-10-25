@@ -221,9 +221,10 @@ def toggle_status(ad_id):
 @app.route("/dashboard.html")
 @app.route("/dashboard",methods=["GET", "POST"])
 def dashboard():
+    global current_user
     if request.method == "POST":
         con = sqlite3.connect("Users.db")
-        con.execute('''UPDATE User SET 
+        con.execute('''UPDATE Users SET 
         first_name = ?,
         last_name = ?,
         email = ?,
@@ -234,12 +235,12 @@ def dashboard():
                         request.form.get("fname"),
                         request.form.get("lname"),
                         request.form.get("email"),
+                        request.form.get("phone"),
                         request.form.get("password"),
-                        request.form.get("phone")
+                        current_user.username
                     ])
         con.commit()
-        global current_user
-        current_user = User(current_user.get_as_dict())
+        current_user = User(current_user.username)
         return render_template("dashboard.html", user=current_user.get_as_dict())
 
     return render_template("dashboard.html",user=current_user.get_as_dict())
