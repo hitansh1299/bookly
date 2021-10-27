@@ -141,7 +141,7 @@ def login():
         username = form.get("signin_username")
         password = form.get("signin_password")
         x = con.execute(f'SELECT password FROM Users WHERE username = "{username}"').fetchone()
-        if x[0] != password:
+        if x is not None and x[0] != password:
             return render_template('loginRegister.html',
                                    signin_text="USERNAME OR PASSWORD INCORRECT!",
                                    show_signup="",
